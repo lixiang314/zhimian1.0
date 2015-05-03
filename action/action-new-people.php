@@ -21,8 +21,8 @@ include("../public/function.php");
 	
 @$name=$_POST['new-name']; 
 @$age=$_POST['new-age'];
-@$sex=$_POST['new-sex'];
-@$date=$_POST['new-date'];
+@$gender=$_POST['new-gender'];
+// @$date=$_POST['new-date'];
 @$deviceId=$_POST['new-deviceId'];
 @$buildId=$_POST['new-buildId'];
 @$roomId=$_POST['new-roomId'];
@@ -30,7 +30,7 @@ include("../public/function.php");
 
 
 //===================================
-mysql_query("INSERT INTO user (id, userName, sex, age, joinDate, deviceId, bedId, roomId, buildId) VALUES (null, '$name', '$sex', '$age', '$date', '$deviceId', '$bedId', '$roomId', '$buildId')");
+mysql_query("INSERT INTO user (id, userName, gender, age, checkInDate, deviceId, bedId, roomId, buildId) VALUES (null, '$name', '$gender', '$age', now(), '$deviceId', '$bedId', '$roomId', '$buildId')");
 //===================================
 	echo "<script>";
 	echo "alert(\"新增人员成功！\");";

@@ -86,12 +86,12 @@ $result=sqlQuery($sql);
 				<div class="select-content">
 
 					
-						<div style="margin:0 0 20px 5px;">
-							<input type="checkbox" id="people-checkall" onclick="isAllChecked()">
-							<label>全选</label>
-							<input type="submit" class="btn btn-danger" value="删除选中" href="javascript:;" data-toggle="modal" data-target="#deleteCheckedModal">
-							<input type="button" onclick="window.location.replace('people-new.php')" class="btn btn-success" style="margin-left:10px;" value="新增人员">
-						</div>
+					<div style="margin:0 0 20px 5px;">
+						<input type="checkbox" id="checkboxAll" onclick="isAllChecked()">
+						<label>全选</label>
+						<input type="submit" class="btn btn-danger" value="删除选中" href="javascript:;" data-toggle="modal" data-target="#deleteCheckedModal">
+						<input type="button" onclick="window.location.replace('people-new.php')" class="btn btn-success" style="margin-left:10px;" value="新增人员">
+					</div>
 				
 
 				</div>
@@ -127,7 +127,7 @@ $result=sqlQuery($sql);
 									if($result==null){continue;}
 
 									@$name = $result['userName'];
-									@$sex = $result['sex'];
+									@$gender = $result['gender'];
 									@$age = $result['age'];
 									@$buildId = $result['buildId'];
 									@$roomId = $result['roomId'];
@@ -136,9 +136,9 @@ $result=sqlQuery($sql);
 
 									echo"
 									<tr>
-									<td><input type=\"checkbox\" class=\"checkbox-style people-check\" id=\"check-$i\"></td>
+									<td><input type=\"checkbox\" class=\"checkbox-style everyCheck\" id=\"checkPeople-$i\"></td>
 									<td><a href=\"state.php?id=$i\">  $name </a></td>
-									<td>				$sex     				</td>
+									<td>				$gender          		</td>
 									<td>				$age  					</td>
 									<td>				$buildId<span>号楼</span>$roomId<span>室</span></td>
 									<td>				$bedId<span>号</span>	</td>              
@@ -255,7 +255,8 @@ $result=sqlQuery($sql);
 						<h4 class="modal-title" id="myModalLabel">确认要删除所有选中的人员记录吗？ （一旦删除即无法撤销！）</h4>
 					</div>
 					<div class="modal-footer">
-						<button onclick="deleteCheck(<?php echo"$max"; ?>)" class="btn btn-danger">确认</button>
+						<!-- 这里和上面单独删除的modal不同，由于需要使用js判断选中了哪些数据，所以必须从main.js里跳转到action-delete来操作数据库。 -->
+						<button onclick="deleteCheckPeople(<?php echo"$max"; ?>)" class="btn btn-danger">确认</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 					</div>
 				</div>

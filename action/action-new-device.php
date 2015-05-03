@@ -29,7 +29,7 @@ include("../public/function.php");
 
 
 //===================================
-mysql_query("INSERT INTO device (id, deviceId, settingDate, deviceInfo, locationId) VALUES (null, '$deviceId', now(), '$deviceInfo', '$locationId')");
+mysql_query("INSERT INTO device (id, deviceId, settingDate, deviceInfo, buildId, roomId, bedId, userId) VALUES (null, '$deviceId', now(), '$deviceInfo', '$buildId', '$roomId', '$bedId', null)");
 
 //===================================
 	echo "<script>";

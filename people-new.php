@@ -83,22 +83,22 @@
 								</tr>
 
 								<tr>
-									<td><label for="sex" class="new-form-tips">性别</label></td>
+									<td><label for="gender" class="new-form-tips">性别</label></td>
 									<td>
 										<span style="margin-right:20px;font-size:15px;">
-											<input type="radio" name="new-sex" value="男"> 男 
+											<input type="radio" name="new-gender" value="男"> 男 
 										</span>
 										<span style="margin-right:20px;font-size:15px;">
-											<input type="radio" name="new-sex" value="女"> 女 
+											<input type="radio" name="new-gender" value="女"> 女 
 										</span>
 										
 									</td>
 								</tr>
 
-								<tr>
+								<!-- <tr>
 									<td><label for="name" class="new-form-tips">入院时间</label></td>
 									<td><input type="text" class="form-control" id="new-date" value=""  name="new-date"></td>
-								</tr>
+								</tr> -->
 
 								<tr>
 									<td><label for="deviceId" class="new-form-tips">设备编号</label></td>

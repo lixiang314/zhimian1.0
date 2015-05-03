@@ -455,12 +455,12 @@ if($result == null)
 					minPadding: 0.2,
 					maxPadding: 0.2,
 					title: {
-						text: '心率（次/分）',
+						text: '',
 						margin: 20
 					}
 				},
 				series: [{
-					name: '-',
+					name: '心率（次/分）',
 					data: []
 				}]
 			});		

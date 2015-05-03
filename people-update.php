@@ -21,7 +21,7 @@ if($result == null)
 @$name     =$result['userName'];
 @$age      =$result['age'];
 @$sex      =$result['sex'];
-@$date      =$result['joinDate'];
+// @$date      =$result['checkInDate'];
 @$deviceId      =$result['deviceId'];
 @$buildId  =$result['buildId'];
 @$roomId   =$result['roomId'];
@@ -106,22 +106,18 @@ if($result == null)
 								</tr>
 
 								<tr>
-									<td><label for="sex" class="new-form-tips">性别</label></td>
+									<td><label for="gender" class="new-form-tips">性别</label></td>
 									<td>
 										<span style="margin-right:20px;font-size:15px;">
-											<input type="radio" name="new-sex" value="男" <?php if($sex =='男'){echo"checked=\"checked\" ";}?>> 男 
+											<input type="radio" name="new-gender" value="男" <?php if($gender =='男'){echo"checked=\"checked\" ";}?>> 男 
 										</span>
 										<span style="margin-right:20px;font-size:15px;">
-											<input type="radio" name="new-sex" value="女"  <?php if($sex =='女'){echo"checked=\"checked\" ";}?>> 女 
+											<input type="radio" name="new-gender" value="女"  <?php if($gender =='女'){echo"checked=\"checked\" ";}?>> 女 
 										</span>
 										
 									</td>
 								</tr>
 
-								<tr>
-									<td><label for="name" class="new-form-tips">入院时间</label></td>
-									<td><input type="text" class="form-control" id="new-date" value="<?php echo"$date"; ?>"  name="new-date"></td>
-								</tr>
 
 								<tr>
 									<td><label for="deviceId" class="new-form-tips">设备编号</label></td>

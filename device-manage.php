@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>智能床分析监控报警系统</title>
-
+	<script type="text/javascript" src="js/main.js"></script>
 	<link rel="stylesheet" href="css/main-style.css">
 </head>
 
@@ -85,14 +85,14 @@ $result=sqlQuery($sql);
 				<!-- 查询表单 -->
 				<div class="select-content">
 
-					<form>
-							<div style="margin:0 0 20px 5px;">
-								<input type="checkbox">
-								<label>全选</label>
-								<input type="submit" class="btn btn-danger" value="删除选中">
-								<input type="button" onclick="window.location.replace('device-new.php')" class="btn btn-success" style="margin-left:10px;" value="新增设备">
-						</div>
-					</form>
+					
+					<div style="margin:0 0 20px 5px;">
+						<input type="checkbox" id="checkboxAll" onclick="isAllChecked()">
+						<label>全选</label>
+						<input type="submit" class="btn btn-danger" value="删除选中" href="javascript:;" data-toggle="modal" data-target="#deleteCheckedModalDevice">
+						<input type="button" onclick="window.location.replace('device-new.php')" class="btn btn-success" style="margin-left:10px;" value="新增设备">
+					</div>
+					
 
 				</div>
 				<!-- - - - -->
@@ -130,13 +130,15 @@ $result=sqlQuery($sql);
 									@$deviceId = $result['deviceId'];
 									@$settingDate = $result['settingDate'];
 									@$deviceInfo = $result['deviceInfo'];
+									@$buildId = $result['buildId'];
+									@$roomId = $result['roomId'];
 									@$bedId = $result['bedId'];
 									$deleteId = $i;
 
 
 								
 								echo"<tr>
-									<td><input type=\"checkbox\" class=\"checkbox-style\"></td>
+									<td><input type=\"checkbox\" class=\"checkbox-style everyCheck\" id=\"checkDevice-$i\"></td>
 									<td><a href=\"#\">$deviceId</a></td>
 									<td>$settingDate</td>
 									<td>$deviceInfo</td>
@@ -144,7 +146,7 @@ $result=sqlQuery($sql);
 									<td><span>$bedId</span>号</td>              
 									<td><a href=\"#\"><div class=\"icon-check\"></div></a></td>
 									<td><a href=\"#\"><div class=\"icon-edit\"></div></a></td>
-									<td><a href=\"#\"><div class=\"icon-remove\"></div></a></td>
+									<td><div class=\"icon-remove\"  href=\"javascript:;\" data-toggle=\"modal\" data-target=\"#deleteModal-$i\"></div></td>
 								</tr>";
 							}
 
@@ -214,6 +216,53 @@ $result=sqlQuery($sql);
 						</div>
 					</div>
 				</div>
+
+
+				<!-- 删除确认 Modal -->
+		<?php
+		for ($k=$max; $k > 0; $k--) { 
+			$sqlDel="SELECT * FROM device where id=$k";
+			$resultDel =sqlQuery($sqlDel);
+			if($resultDel==null){continue;}
+			@$deviceIdDel = $resultDel['deviceId'];
+
+			echo"<div class=\"modal fade\" id=\"deleteModal-$k\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">
+			<div class=\"modal-dialog\">
+			<div class=\"modal-content\">
+			<div class=\"modal-header\">
+			<button type=\"button\" class=\"close\" data-dismiss=\"modal\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span></button>
+			<h4 class=\"modal-title\" id=\"myModalLabel\">确认要删除<span style=\"color:#09a98b;\">$deviceIdDel</span>号设备的所有记录吗？（一旦删除即无法撤销！）</h4>
+			</div>
+			<div class=\"modal-footer\">
+			<a href=\"action/action-delete-device.php?id=$k\" class=\"btn btn-danger\">确认</a>
+			<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">取消</button>
+			</div>
+			</div>
+			</div>
+			</div>";
+		}
+		?>
+
+
+				<!-- 多选删除确认 Modal -->
+		<div class="modal fade" id="deleteCheckedModalDevice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4 class="modal-title" id="myModalLabel">确认要删除所有选中的设备记录吗？ （一旦删除即无法撤销！）</h4>
+					</div>
+					<div class="modal-footer">
+						<!-- 这里和上面单独删除的modal不同，由于需要使用js判断选中了哪些数据，所以必须从main.js里跳转到action-delete来操作数据库。 -->
+						<button onclick="deleteCheckDevice(<?php echo"$max"; ?>)" class="btn btn-danger">确认</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>         
+
+
+
 
 				<footer class="templatemo-footer">
 					<div class="templatemo-copyright">
