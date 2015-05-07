@@ -23,7 +23,7 @@ mysql_query("INSERT INTO family (id, name, relationship, phone, userId) VALUES (
 //===================================
 	echo "<script>";
 	// echo "alert(\"新增家属成功！\");";
-	echo "window.location.href=\"../state.php?id=$userId\";";
+	echo "window.location.href=\"../people-state.php?id=$userId\";";
 	echo "</script>";
 	?>
 </body>

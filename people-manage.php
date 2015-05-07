@@ -170,7 +170,7 @@ $result=sqlQuery($sql);
 									echo"</ul>
 									</div>
 									</td>
-									<td><a href=\"state.php?id=$i\"><div class=\"icon-check\"></div></a></td>
+									<td><a href=\"people-state.php?id=$i\"><div class=\"icon-check\"></div></a></td>
 									<td><a href=\"people-update.php?id=$i\"><div class=\"icon-edit\"></div></a></td>
 									<td><div class=\"icon-remove\"  href=\"javascript:;\" data-toggle=\"modal\" data-target=\"#deleteModal-$i\"></div></td>
 									</tr>";
