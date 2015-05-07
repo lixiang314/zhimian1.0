@@ -125,7 +125,7 @@
 							@$bedId = $result['bedId'];
 
 							echo"
-							<a href=\"state.php?id=$i\"><div class=\"bed-modal\">
+							<a href=\"people-state.php?id=$i\"><div class=\"bed-modal\">
 							<div class=\"bed-info\">
 							<div>$name</div>
 							<div> $buildId - $roomId 室</div>

@@ -137,7 +137,7 @@ $result=sqlQuery($sql);
 									echo"
 									<tr>
 									<td><input type=\"checkbox\" class=\"checkbox-style everyCheck\" id=\"checkPeople-$i\"></td>
-									<td><a href=\"state.php?id=$i\">  $name </a></td>
+									<td><a href=\"people-state.php?id=$i\">  $name </a></td>
 									<td>				$gender          		</td>
 									<td>				$age  					</td>
 									<td>				$buildId<span>号楼</span>$roomId<span>室</span></td>
