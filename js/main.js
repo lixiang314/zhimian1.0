@@ -73,7 +73,7 @@ function emptyAll(){ //全不选
 
 
 
-
+// 2.全部删除-----------------------------------------------------
 function deleteCheckPeople(max){
 	// var array = new Array();	
 	var array="";

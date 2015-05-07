@@ -5,8 +5,6 @@
 	<title>智能床分析监控报警系统</title>
 
 	<link rel="stylesheet" href="css/main-style.css">
-	<script type="text/javascript" src="js/main.js"></script>
-
 </head>
 
 <?php 
@@ -168,18 +166,16 @@ if($result == null)
 				<!-- 心率 以下-->
 				<div class="heart-info">
 					<div class="chart-content">
-						<p style="color:#777;">心率曲线变化图
+						<p style="color:#777;">今日心率曲线变化图（单位：次/分）
 							<span>
 								<button class="btn btn-primary" style="float:right;">查看历史记录</button>
 							</span>
 						</p>            
-						<!-- <canvas id="heart-chart"></canvas>   -->
-						<div id="heart-chart"  style="width: 550px; height: 230px; margin: 0 0 0 -20px;"></div>      
-
+						<canvas id="heart-chart"></canvas>                      
 					</div>
 
 					<div class="heart-info-table">
-						<table width="90%">
+						<table width="80%">
 							<tr>
 								<td>当前心率：</td>
 								<td><span>52</span>次/分</td>
@@ -202,16 +198,16 @@ if($result == null)
 				<!-- 呼吸率 以下-->
 				<div class="breath-info">
 					<div class="chart-content">
-						<p style="color:#777;">呼吸率曲线变化图
+						<p style="color:#777;">今日呼吸率曲线变化图（单位：次/分）
 							<span>
 								<button class="btn btn-primary" style="float:right;">查看历史记录</button>
 							</span>
 						</p>            
-						<div id="breath-chart"  style="width: 550px; height: 230px; margin: 0 0 0 -20px;"></div>                      
+						<canvas id="breath-chart"></canvas>                      
 					</div>
 
 					<div class="breath-info-table">
-						<table width="90%">
+						<table width="80%">
 							<tr>
 								<td>当前呼吸率：</td>
 								<td><span>17</span>次/分</td>
@@ -230,18 +226,18 @@ if($result == null)
 				</div>
 				<!-- 呼吸率 以上-->
 
-				<div class="move-info">
+				<div class="breath-info">
 					<div class="chart-content">
-						<p style="color:#777;">体动曲线变化图
+						<p style="color:#777;">今日体动曲线变化图（单位：幅度）
 							<span>
 								<button class="btn btn-primary" style="float:right;">查看历史记录</button>
 							</span>
 						</p>            
-						<div id="move-chart"  style="width: 550px; height: 230px; margin: 0 0 0 -20px;"></div>                       
+						<canvas id="move-chart"></canvas>                      
 					</div>
 
-					<div class="move-info-table">
-						<table width="90%">
+					<div class="breath-info-table">
+						<table width="80%">
 							<tr>
 								<td>当前体动状态：</td>
 								<td><span>17</span>次/分</td>
@@ -334,184 +330,74 @@ if($result == null)
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/Chart.min.js"></script>
 	<script src="js/templatemo_script.js"></script>
-	<!-- <script type="text/javascript" src="jquery-1.10.1.js"></script>-->
-	<script type="text/javascript" src="js/highcharts.js"></script> 
+	<script type="text/javascript">  
 
-
-	<script type="text/javascript"> 
-		var chart1; // global
-		var chart2; // global
-		
-		function requestData() {
-
-			$.ajax({
-				url: 'echojson-heart.php', 
-				success: function(point) {
-					var series = chart1.series[0],
-						shift = series.data.length > 20;
-					chart1.series[0].addPoint(eval(point), true, shift);
-					setTimeout(requestData, 1000);	
-				},
-				cache: false
-			});
-
+	var heartChartData = {
+		labels : ["0:00","1:00","2:00","3:00","4:00","5:00","6:00","7:00","8:00","9:00","10:00","11:00","12:00"],
+		datasets : [
+		{
+			label: "My Second dataset",
+			fillColor : "rgba(151,187,205,0.2)",
+			strokeColor : "rgba(151,187,205,1)",
+			pointColor : "rgba(151,187,205,1)",
+			pointStrokeColor : "#fff",
+			pointHighlightFill : "#fff",
+			pointHighlightStroke : "rgba(151,187,205,1)",
+			data : [52,54,49,51,53,50,53,51,57,55,55,54,56]
 		}
+		]
 
+      } // heartChartData
 
-		function requestData2() {
-			$.ajax({
-				url: 'echojson-breath.php', 
-				success: function(point2) {
-					var series2 = chart1.series[0],
-						shift2 = series2.data.length > 20; 
-					chart2.series[0].addPoint(eval(point2), true, shift2);
-					setTimeout(requestData2, 1000);	
-				},
-				cache: false
-			});
+      var breathChartData = {
+      	labels : ["0:00","1:00","2:00","3:00","4:00","5:00","6:00","7:00","8:00","9:00","10:00","11:00","12:00"],
+      	datasets : [
+      	{
+      		label: "My Second dataset",
+      		fillColor : "rgba(151,187,205,0.2)",
+      		strokeColor : "rgba(151,187,205,1)",
+      		pointColor : "rgba(151,187,205,1)",
+      		pointStrokeColor : "#fff",
+      		pointHighlightFill : "#fff",
+      		pointHighlightStroke : "rgba(151,187,205,1)",
+      		data : [15,16,15,16,17,16,16,17,16,16,15,17,16]
+      	}
+      	]
 
-		}
-		
+      } // breathChartData
 
+      var moveChartData = {
+      	labels : ["0:00","1:00","2:00","3:00","4:00","5:00","6:00","7:00","8:00","9:00","10:00","11:00","12:00"],
+      	datasets : [
+      	{
+      		label: "My Second dataset",
+      		fillColor : "rgba(151,187,205,0.2)",
+      		strokeColor : "rgba(151,187,205,1)",
+      		pointColor : "rgba(151,187,205,1)",
+      		pointStrokeColor : "#fff",
+      		pointHighlightFill : "#fff",
+      		pointHighlightStroke : "rgba(151,187,205,1)",
+      		data : [85,84,78,71,85,88,89,91,90,92,85,86,84]
+      	}
+      	]
 
+      } // moveChartData
 
-		$(document).ready(function() {
-// 心率表--------------------------------------------
-			chart1 = new Highcharts.Chart({
-				chart: {
-					renderTo: 'heart-chart',
-					defaultSeriesType: 'spline',
-					events: {
-						load: requestData
-					}
-				},
-				title: {
-					text: ''
-				},
-				xAxis: {
-					type: 'datetime',
-					tickPixelInterval: 150,
-					maxZoom: 20 * 1000
-				},
-				yAxis: {
-					minPadding: 0.2,
-					maxPadding: 0.2,
-					title: {
-						text: '',
-						margin: 20
-					}
-				},
-				series: [{
-					name: '心率（次/分）',
-					data: []
-				}]
-			});	
+      window.onload = function(){
+      	var h_line = document.getElementById("heart-chart").getContext("2d");
+      	var b_line = document.getElementById("breath-chart").getContext("2d");
+      	var m_line = document.getElementById("move-chart").getContext("2d");
 
-
-// 呼吸率表--------------------------------------------
-			chart2 = new Highcharts.Chart({
-				chart: {
-					renderTo: 'breath-chart',
-					defaultSeriesType: 'spline',
-					events: {
-						load: requestData2
-					}
-				},
-				title: {
-					text: ''
-				},
-				xAxis: {
-					type: 'datetime',
-					tickPixelInterval: 150,
-					maxZoom: 20 * 1000
-				},
-				yAxis: {
-					minPadding: 0.2,
-					maxPadding: 0.2,
-					title: {
-						text: '',
-						margin: 20
-					}
-				},
-				series: [{
-					name: '呼吸率（次/分）',
-					data: []
-				}]
-			});	
-
-
-		});
-		</script>
-
-
-
-	
-
-		
-		
-	
-		
-
-
-
-		 <script type="text/javascript"> 
-
-		// var chart3; // global
-		
-		// /**
-		//  * Request data from the server, add it to the graph and set a timeout to request again
-		//  */
-		// function requestData() {
-		// 	$.ajax({
-		// 		url: 'echojson-breath.php',  
-		// 		success: function(point) {
-		// 			var series = chart3.series[0],
-		// 				shift = series.data.length > 20; // shift if the series is longer than 20
-		
-		// 			// add the point
-		// 			chart3.series[0].addPoint(eval(point), true, shift);
-					
-		// 			// call it again after one second
-		// 			setTimeout(requestData, 1000);	
-		// 		},
-		// 		cache: false
-		// 	});
-		// }
-			
-		// $(document).ready(function() {
-		// 	chart3 = new Highcharts.Chart({
-		// 		chart: {
-		// 			renderTo: 'heart-chart',
-		// 			defaultSeriesType: 'spline',
-		// 			events: {
-		// 				load: requestData
-		// 			}
-		// 		},
-		// 		title: {
-		// 			text: ''
-		// 		},
-		// 		xAxis: {
-		// 			type: 'datetime',
-		// 			tickPixelInterval: 150,
-		// 			maxZoom: 20 * 1000
-		// 		},
-		// 		yAxis: {
-		// 			minPadding: 0.2,
-		// 			maxPadding: 0.2,
-		// 			title: {
-		// 				text: '',
-		// 				margin: 20
-		// 			}
-		// 		},
-		// 		series: [{
-		// 			name: '心率（次/分）',
-		// 			data: []
-		// 		}]
-		// 	});		
-		// });
-		</script>
-
-
-
+      	window.myLine = new Chart(h_line).Line(heartChartData, {
+      		responsive: true
+      	});
+      	window.myLine = new Chart(b_line).Line(breathChartData, {
+      		responsive: true
+      	});
+      	window.myLine = new Chart(m_line).Line(moveChartData, {
+      		responsive: true
+      	});
+      }
+      </script>
   </body>
   </html>
