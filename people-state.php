@@ -423,7 +423,7 @@ if($result == null)
 				xAxis: {
 					type: 'datetime',
 					tickPixelInterval: 150,
-					maxZoom: 20 * 1000
+					maxZoom: people20 * 1000
 				},
 				yAxis: {
 					minPadding: 0.2,
