@@ -14,6 +14,7 @@ include("public/connect.php");
 include("public/function.php");
 
 @$id = $_GET['id'];
+// echo "<script>alert('$id');</script>";
 $sql="SELECT * FROM user where id = $id ";
 $result=sqlQuery($sql);
 if($result == null)
@@ -333,6 +334,7 @@ if($result == null)
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/Chart.min.js"></script>
 	<script src="js/templatemo_script.js"></script>
+	<!-- <script type="text/javascript" src="jquery-1.10.1.js"></script>-->
 	<script type="text/javascript" src="js/highcharts.js"></script> 
 
 
@@ -340,27 +342,26 @@ if($result == null)
 		var chart1; // global
 		var chart2; // global
 		
-		function requestData() {
+		function requestData1() {
 
 			$.ajax({
-				url: 'echojson-heart.php', 
+				url: 'echojson/echojson-heart.php', 
 				success: function(point) {
-					var series = chart1.series[0],
-						shift = series.data.length > 20;
-					chart1.series[0].addPoint(eval(point), true, shift);
-					setTimeout(requestData, 1000);	
+					var series1 = chart1.series[0],
+						shift1 = series1.data.length > 20;
+					chart1.series[0].addPoint(eval(point), true, shift1);
+					setTimeout(requestData1, 1000);	
 				},
 				cache: false
 			});
-
 		}
 
 
 		function requestData2() {
 			$.ajax({
-				url: 'echojson-breath.php', 
+				url: 'echojson/echojson-breath.php', 
 				success: function(point2) {
-					var series2 = chart1.series[0],
+					var series2 = chart2.series[0],
 						shift2 = series2.data.length > 20; 
 					chart2.series[0].addPoint(eval(point2), true, shift2);
 					setTimeout(requestData2, 1000);	
@@ -380,7 +381,7 @@ if($result == null)
 					renderTo: 'heart-chart',
 					defaultSeriesType: 'spline',
 					events: {
-						load: requestData
+						load: requestData1
 					}
 				},
 				title: {
