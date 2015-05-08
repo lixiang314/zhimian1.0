@@ -4,11 +4,11 @@
 header("Content-type: text/json");
 
 // The x value is the current JavaScript time, which is the Unix time multiplied by 1000.
-$x = time() * 1000;
+$a = time() * 1000;
 // The y value is a random number
-$y = rand(50, 70);
+$b = rand(50, 70);
 
 // Create a PHP array and echo it as JSON
-$ret = array($x, $y);
+$ret = array($a, $b);
 echo json_encode($ret);
 ?>
