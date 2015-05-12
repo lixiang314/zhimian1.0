@@ -100,8 +100,6 @@ $result=sqlQuery($sql);
 				<!-- Tab panes -->
 				<div class="tab-content">			
 					<div class="tab-pane fade in active" id="all-table">
-
-
 						<table class="table table-striped table-hover table-bordered">
 							<thead>
 								<tr>

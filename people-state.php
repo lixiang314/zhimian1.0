@@ -22,7 +22,7 @@ if($result == null)
 
 @$name     =$result['userName'];
 @$age      =$result['age'];
-@$sex      =$result['sex'];
+@$gender      =$result['gender'];
 @$buildId  =$result['buildId'];
 @$roomId   =$result['roomId'];
 @$bedId    =$result['bedId'];
@@ -103,7 +103,7 @@ if($result == null)
 							</tr>
 							<tr>
 								<td>性别</td>
-								<td><span><?php echo"$sex";?></span></td>
+								<td><span><?php echo"$gender";?></span></td>
 							</tr>
 							<tr>
 								<td>年龄</td>

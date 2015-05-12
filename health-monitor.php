@@ -165,18 +165,20 @@
 							</div>
 
 							<!-- 筛选出不正常的床位 -->
-							<div class="tab-pane fade" id="unusual">
-								<!-- 异常床位modal -->
-								<div class="bed-modal bed-error">
-									<div class="bed-info">
-										<div>张三</div>
-										<div>1-101室</div>
-										<div>02号床位</div>
-										<div class="bed-state-error">
-											心率偏低</div>
-									</div>
+						<div class="tab-pane fade" id="unusual">
+							
+							<!-- 异常床位modal -->
+							<div class="bed-modal bed-error">
+								<div class="bed-info">
+									<div>张三</div>
+									<div>1-101室</div>
+									<div>02号床位</div>
+									<div class="bed-state-error">
+										心率偏低</div>
 								</div>
 							</div>
+
+						</div>
 
 								<!-- 筛选出所有非空床位 -->
 						<!-- 	<div class="tab-pane fade" id="notempty">
@@ -201,50 +203,50 @@
 									</div>
 
 
-										<div class="bed-modal">
-											<div class="bed-info">
-												<div>张三</div>
-												<div>1-101室</div>
-												<div>04号床位</div>
-												<div class="bed-state-normal">正常</div>
-											</div>
+									<div class="bed-modal">
+										<div class="bed-info">
+											<div>张三</div>
+											<div>1-101室</div>
+											<div>04号床位</div>
+											<div class="bed-state-normal">正常</div>
 										</div>
+									</div>
 
-										<div class="bed-modal">
-											<div class="bed-info">
-												<div>张三</div>
-												<div>1-101室</div>
-												<div>05号床位</div>
-												<div class="bed-state-normal">正常</div>
-											</div>
+									<div class="bed-modal">
+										<div class="bed-info">
+											<div>张三</div>
+											<div>1-101室</div>
+											<div>05号床位</div>
+											<div class="bed-state-normal">正常</div>
 										</div>
+									</div>
 
-										<div class="bed-modal">
-											<div class="bed-info">
-												<div>张三</div>
-												<div>1-101室</div>
-												<div>06号床位</div>
-												<div class="bed-state-normal">正常</div>
-											</div>
+									<div class="bed-modal">
+										<div class="bed-info">
+											<div>张三</div>
+											<div>1-101室</div>
+											<div>06号床位</div>
+											<div class="bed-state-normal">正常</div>
 										</div>
+									</div>
 
-										<div class="bed-modal">
-											<div class="bed-info">
-												<div>张三</div>
-												<div>1-101室</div>
-												<div>07号床位</div>
-												<div class="bed-state-normal">正常</div>
-											</div>
+									<div class="bed-modal">
+										<div class="bed-info">
+											<div>张三</div>
+											<div>1-101室</div>
+											<div>07号床位</div>
+											<div class="bed-state-normal">正常</div>
 										</div>
+									</div>
 
-										<div class="bed-modal">
-											<div class="bed-info">
-												<div>张三</div>
-												<div>1-101室</div>
-												<div>08号床位</div>
-												<div class="bed-state-normal">正常</div>
-											</div>
+									<div class="bed-modal">
+										<div class="bed-info">
+											<div>张三</div>
+											<div>1-101室</div>
+											<div>08号床位</div>
+											<div class="bed-state-normal">正常</div>
 										</div>
+									</div>
 									</div>
 
 								</div>  --><!-- tab-content以上 --> 
