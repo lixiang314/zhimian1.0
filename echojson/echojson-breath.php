@@ -1,4 +1,4 @@
-
+ 
 <?php 
 // Set the JSON header
 header("Content-type: text/json");

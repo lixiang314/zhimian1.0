@@ -163,7 +163,7 @@ $result=sqlQuery($sql);
 						<ul class="pagination pull-right">
 							<li class="disabled"><a href="#">&laquo;</a></li>
 
-							<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+	sex						<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
 
 							<li><a href="#">2 <span class="sr-only">(current)</span></a></li>
 
@@ -256,7 +256,7 @@ $result=sqlQuery($sql);
 						<!-- 这里和上面单独删除的modal不同，由于需要使用js判断选中了哪些数据，所以必须从main.js里跳转到action-delete来操作数据库。 -->
 						<button onclick="deleteCheckDevice(<?php echo"$max"; ?>)" class="btn btn-danger">确认</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					</div>
+					</div> @
 				</div>
 			</div>
 		</div>         
