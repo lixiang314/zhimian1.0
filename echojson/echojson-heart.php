@@ -1,14 +1,17 @@
-
 <?php 
-// Set the JSON header
-header("Content-type: text/json");
+include("../public/connect.php");
+include("../public/function.php");
 
-// The x value is the current JavaScript time, which is the Unix time multiplied by 1000.
-$a = time() * 1000;
-// The y value is a random number
-$b = rand(50, 70);
+//header("Content-type: text/json");
 
-// Create a PHP array and echo it as JSON
-$ret = array($a, $b);
-echo json_encode($ret);
+$id=$_GET["id"];
+$sql="SELECT heartbeatstring FROM heartbeat where userId=$id order by id desc limit 1";
+//echo $sql;
+//$sql="SELECT heartbeatstring FROM heartbeat  order by rand() limit 1 ";
+$result=mysql_query($sql);
+$row=mysql_fetch_array($result);
+$datastring = $row['heartbeatstring'];
+echo $datastring;
+
+
 ?>

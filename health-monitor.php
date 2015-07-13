@@ -7,14 +7,6 @@
  	<link rel="stylesheet" href="css/main-style.css">
  </head>
 
- <?php 
- include("public/connect.php");
- include("public/function.php");
-
- $sql="SELECT id FROM user ORDER BY id DESC LIMIT 1";
- $result=sqlQuery($sql);
- @$max=$result['id'];
- ?>
 
  <body>
  	<!-- 顶部标题 -->
@@ -41,7 +33,7 @@
 						<div class="icon_heart_focus"></div>
 
 						<!-- 显示消息数量 -->
-						<span class="badge pull-right">1</span>		
+						<span class="badge pull-right" id="jkjc">1</span>		
 						健康监测
 					</a>
 				</li>
@@ -112,45 +104,23 @@
 					<div class="tab-pane fade in active" id="all">
 
 
-						<?php  
-						for ($i = 1; $i <= $max; $i++) { 
-							$sql="SELECT * FROM user where id=$i";
-							$result =sqlQuery($sql);
-							if($result==null){
-								continue;}
 
-							@$name = $result['userName'];
-							@$buildId = $result['buildId'];
-							@$roomId = $result['roomId'];
-							@$bedId = $result['bedId'];
-
-							echo"
-							<a href=\"people-state.php?id=$i\"><div class=\"bed-modal\">
-							<div class=\"bed-info\">
-							<div>$name</div>
-							<div> $buildId - $roomId 室</div>
-							<div>$bedId 号床位</div>
-							<div class=\"bed-state-normal\">正常</div>
-							</div>
-							</div></a>";
-						}
-							?>
 
 
 
 							<!-- 正常床位modal -->
-							<a href="state.php"><div class="bed-modal">
+							<!-- <a href="state.php"><div class="bed-modal">
 								<div class="bed-info">
 									<div>赵铁柱</div>
 									<div>1-101室</div>
 									<div>01号床位</div>
 									<div class="bed-state-normal">正常</div>
 								</div>
-							</div></a>
+							</div></a> -->
 							<!-- - - - -->
 
 							<!-- 异常床位modal -->
-							<div class="bed-modal bed-error">
+							<!-- <div class="bed-modal bed-error">
 								<div class="bed-info">
 									<div>张三</div>
 									<div>1-101室</div>
@@ -159,16 +129,13 @@
 										心率偏低</div>
 									</div>
 								</div>
-
-								
-
-							</div>
+							</div> -->
 
 							<!-- 筛选出不正常的床位 -->
 						<div class="tab-pane fade" id="unusual">
 							
 							<!-- 异常床位modal -->
-							<div class="bed-modal bed-error">
+							<!-- <div class="bed-modal bed-error">
 								<div class="bed-info">
 									<div>张三</div>
 									<div>1-101室</div>
@@ -176,7 +143,7 @@
 									<div class="bed-state-error">
 										心率偏低</div>
 								</div>
-							</div>
+							</div> -->
 
 						</div>
 
@@ -289,5 +256,51 @@
 					<script src="js/bootstrap.min.js"></script>
 					<script src="js/Chart.min.js"></script>
 					<script src="js/templatemo_script.js"></script>
+					<script>
+						var intervalTime=5000;
+
+						function getAllBedsInfo(){
+							$.post("getAllBedsInfo.php",{},function(data){
+								if(data=="empty"){
+									$("#all").html("<p>无床位在用</p>");
+									$("#jkjc").hide();
+								}	
+								else{
+									var arrOutput=data.split("#");
+									$("#all").html(arrOutput[0]);
+									$("#jkjc").show().fadeIn();
+									$("#jkjc").text(arrOutput[1]);
+									console.log(arrOutput[1]);
+								}
+
+									
+							});
+						}
+						
+						getAllBedsInfo();
+						setInterval("getAllBedsInfo()",intervalTime);
+													
+						function getAbnormalBedsInfo(){
+						console.log("e1");
+						$.post("getAbnormalBedsInfo.php",{},function(data){
+							if(data=="empty"){
+								$("#unusual").html("<p>无异常床位</p>");
+								$("#jkjc").hide();
+							}	
+							else{
+								var arrOutput=data.split("#");
+								$("#unusual").html(arrOutput[0]);
+								$("#jkjc").show().fadeIn();
+								$("#jkjc").text(arrOutput[1]);
+								//console.log("ok");
+							}
+
+								
+						});
+					}
+					getAbnormalBedsInfo();
+					setInterval("getAbnormalBedsInfo()",intervalTime);
+						
+					</script>
 				</body>
 				</html>

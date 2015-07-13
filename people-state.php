@@ -1,3 +1,21 @@
+<?php 
+include("public/connect.php");
+include("public/function.php");
+
+$id = $_GET['id'];
+// echo "<script>alert('$id');</script>";
+$sql="SELECT *,user.id as uid FROM user left join heartbeat on user.id=heartbeat.userId where user.id = $id order by heartbeat.id desc limit 1";
+$result=sqlQuery($sql);
+if(!$result)
+	{echo "<script>alert('没有此人记录!');history.go(-1);</script>";}
+
+$name     =$result['userName'];
+$age      =$result['age'];
+$gender   =$result['gender'];
+$buildId  =$result['buildId'];
+$roomId   =$result['roomId'];
+$bedId    =$result['bedId'];
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -9,24 +27,7 @@
 
 </head>
 
-<?php 
-include("public/connect.php");
-include("public/function.php");
 
-@$id = $_GET['id'];
-// echo "<script>alert('$id');</script>";
-$sql="SELECT * FROM user where id = $id ";
-$result=sqlQuery($sql);
-if($result == null)
-	{echo "<script>alert('没有此人记录!');history.go(-1);</script>";}
-
-@$name     =$result['userName'];
-@$age      =$result['age'];
-@$gender      =$result['gender'];
-@$buildId  =$result['buildId'];
-@$roomId   =$result['roomId'];
-@$bedId    =$result['bedId'];
-?>
 
 
 
@@ -53,9 +54,7 @@ if($result == null)
 				<li class="active">
 					<a href="health-monitor.php">
 						<div class="icon_heart_focus"></div>
-
-						<!-- 显示消息数量 --> 
-						<span class="badge pull-right">1</span>		
+							
 						健康监测
 					</a>
 				</li>
@@ -182,7 +181,7 @@ if($result == null)
 						<table width="90%">
 							<tr>
 								<td>当前心率：</td>
-								<td><span>52</span>次/分</td>
+								<td><span id="currentHeartBeat">52</span><span class="rateUnit">次/分</span></td>
 							</tr>
 							<tr>
 								<td>今日平均心率：</td>
@@ -214,7 +213,7 @@ if($result == null)
 						<table width="90%">
 							<tr>
 								<td>当前呼吸率：</td>
-								<td><span>17</span>次/分</td>
+								<td><span id="currentBreathRate">17</span><span class="rateUnit">次/分</span></td>
 							</tr>
 							<tr>
 								<td>今日平均呼吸率：</td>
@@ -244,7 +243,7 @@ if($result == null)
 						<table width="90%">
 							<tr>
 								<td>当前体动状态：</td>
-								<td><span>17</span>次/分</td>
+								<td><span id="currentMoveRate">17</span><span class="rateUnit">次/分</span></td>
 							</tr>
 							<tr>
 								<td>今日体动状态：</td>
@@ -336,21 +335,41 @@ if($result == null)
 	<script src="js/templatemo_script.js"></script>
 	<!-- <script type="text/javascript" src="jquery-1.10.1.js"></script>-->
 	<script type="text/javascript" src="js/highcharts.js"></script> 
+	<!--定义的标准值变量-->
+	<script type="text/javascript" src="js/standard.js"></script> 
 
 
 	<script type="text/javascript"> 
+		$("span.rateUnit").css("fontSize","17px");
+		$("span.rateUnit").css("color","#1aba9c");
 		var chart1; // global
 		var chart2; // global
+		var today=new Date();
+		var rndString=today.getMilliseconds();
 		
 		function requestData1() {
 
 			$.ajax({
-				url: 'echojson/echojson-heart.php', 
+				url: 'echojson/echojson-heartrate.php?id='+<?php echo $id?>+'&rnd='+rndString, 
 				success: function(point) {
-					var series1 = chart1.series[0],
-						shift1 = series1.data.length > 20;
-					chart1.series[0].addPoint(eval(point), true, shift1);
+					var series = chart1.series[0],
+					shift = series.data.length > 20; // shift if the series is longer than 20
+		
+					// add the point
+					chart1.series[0].addPoint(eval(point), true, shift);
+					if(point[1]<HEART_LOWER || point[1]>HEART_UPPER){
+						$("#currentHeartBeat").addClass("abnormal-color")
+						$("#currentHeartBeat").siblings(".rateUnit").eq(0).css("color","#a00");
+						
+					}
+					else{
+						$("#currentHeartBeat").removeClass("abnormal-color");
+					}
+						
+					$("#currentHeartBeat").text(point[1]);
+					// call it again after one second
 					setTimeout(requestData1, 1000);	
+					
 				},
 				cache: false
 			});
@@ -359,11 +378,22 @@ if($result == null)
 
 		function requestData2() {
 			$.ajax({
-				url: 'echojson/echojson-breath.php', 
-				success: function(point2) {
+				url: 'echojson/echojson-breath.php?id='+<?php echo $id?>+'&rnd='+rndString,
+				success: function(point) {
 					var series2 = chart2.series[0],
-						shift2 = series2.data.length > 20; 
-					chart2.series[0].addPoint(eval(point2), true, shift2);
+					shift2 = series2.data.length > 20; 
+					chart2.series[0].addPoint(eval(point), true, shift2);
+					//console.log(BREATH_UPPER);
+					if(point[1]<BREATH_LOWER || point[1]>BREATH_UPPER){
+						$("#currentBreathRate").addClass("abnormal-color");
+						$("#currentBreathRate").siblings(".rateUnit").eq(0).css("color","#a00");
+					}
+					else{
+						$("#currentBreathRate").removeClass("abnormal-color");
+						//$("span.rateUnit").removeClass("abnormal-color");
+					}
+
+					$("#currentBreathRate").text(point[1]);
 					setTimeout(requestData2, 1000);	
 				},
 				cache: false
@@ -442,6 +472,9 @@ if($result == null)
 		});
 		</script>
 
+		<script type="text/javascript">  
+			Highcharts.setOptions({ global: { useUTC: false } });   
+		</script> 
 
 
 	
@@ -455,59 +488,78 @@ if($result == null)
 
 		 <script type="text/javascript"> 
 
-		// var chart3; // global
-		
-		// /**
-		//  * Request data from the server, add it to the graph and set a timeout to request again
-		//  */
-		// function requestData() {
-		// 	$.ajax({
-		// 		url: 'echojson-breath.php',  
-		// 		success: function(point) {
-		// 			var series = chart3.series[0],
-		// 				shift = series.data.length > 20; // shift if the series is longer than 20
-		
-		// 			// add the point
-		// 			chart3.series[0].addPoint(eval(point), true, shift);
+		var chart3; // global
+		var today=new Date();
+		var rndString=today.getMilliseconds();
+		/**
+		 * Request data from the server, add it to the graph and set a timeout to request again
+		 */
+		function requestData3() {
+			$.ajax({
+				url: 'echojson/echojson-heart.php?id='+<?php echo $id?>+'&rnd='+rndString,
+
+				success: function(data) {
+					//console.log(data);
+					var arrPoints=data.split(" ");
+					var arrLen=arrPoints.length;
+					var nowTime=new Date();
+					arrLenNums=arrLen-2;
+					//console.log(arrLen);
+					//var point:array;
+					var series3 = chart3.series[0],
+					shift3 = series3.data.length > 3200;
+					for(i=1;i<arrLen-1;i++)
+					{
+						x=nowTime.getTime()+i*1000/arrLenNums;
+						y=parseInt(arrPoints[i]);
+						
+						point=[x,y];
+						//console.log(point);
+						if(i<arrLen-2)
+							series3.addPoint(eval(point), false, shift3);
+						else
+							series3.addPoint(eval(point), true, shift3);
+						//i+=2;
+					}
+					//setInterval(addPoint(),10);
 					
-		// 			// call it again after one second
-		// 			setTimeout(requestData, 1000);	
-		// 		},
-		// 		cache: false
-		// 	});
-		// }
+					setTimeout(requestData3, 1000);	
+				},
+				cache: false
+			});
+		}
 			
-		// $(document).ready(function() {
-		// 	chart3 = new Highcharts.Chart({
-		// 		chart: {
-		// 			renderTo: 'heart-chart',
-		// 			defaultSeriesType: 'spline',
-		// 			events: {
-		// 				load: requestData
-		// 			}
-		// 		},
-		// 		title: {
-		// 			text: ''
-		// 		},
-		// 		xAxis: {
-		// 			type: 'datetime',
-		// 			tickPixelInterval: 150,
-		// 			maxZoom: 20 * 1000
-		// 		},
-		// 		yAxis: {
-		// 			minPadding: 0.2,
-		// 			maxPadding: 0.2,
-		// 			title: {
-		// 				text: '',
-		// 				margin: 20
-		// 			}
-		// 		},
-		// 		series: [{
-		// 			name: '心率（次/分）',
-		// 			data: []
-		// 		}]
-		// 	});		
-		// });
+		$(document).ready(function() {
+			chart3 = new Highcharts.Chart({
+				chart: {
+					renderTo: 'move-chart',
+					defaultSeriesType: 'spline',
+					events: {
+						load: requestData3
+					}
+				},
+				title: {
+					text: ''
+				},
+				xAxis: {
+					type: 'datetime',
+					tickPixelInterval: 40,
+					maxZoom: 20 * 1000
+				},
+				yAxis: {
+					minPadding: 0.2,
+					maxPadding: 0.2,
+					title: {
+						text: '',
+						margin: 20
+					}
+				},
+				series: [{
+					name: '体动（次/秒）',
+					data: []
+				}]
+			});		
+		});
 		</script>
 
 

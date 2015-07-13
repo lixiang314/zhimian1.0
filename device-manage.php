@@ -1,12 +1,3 @@
-<!doctype html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>智能床分析监控报警系统</title>
-	<script type="text/javascript" src="js/main.js"></script>
-	<link rel="stylesheet" href="css/main-style.css">
-</head>
-
 <?php 
 include("public/connect.php");
 include("public/function.php");
@@ -16,6 +7,16 @@ $result=sqlQuery($sql);
 @$max=$result['id'];
 @$deleteId;
 ?>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>智能床分析监控报警系统</title>
+	<script type="text/javascript" src="js/main.js"></script>
+	<link rel="stylesheet" href="css/main-style.css">
+</head>
+
+
 
 <body>
 	<!-- 顶部标题 -->
@@ -163,7 +164,7 @@ $result=sqlQuery($sql);
 						<ul class="pagination pull-right">
 							<li class="disabled"><a href="#">&laquo;</a></li>
 
-	sex						<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+							<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
 
 							<li><a href="#">2 <span class="sr-only">(current)</span></a></li>
 
